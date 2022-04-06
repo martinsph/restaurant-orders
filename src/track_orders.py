@@ -15,18 +15,17 @@ class TrackOrders:
 
     def get_most_ordered_dish_per_customer(self, customer):
         most_order_dict = {}
-        order_counter = 1
-        most_ordered = 'pizza'
+        order_counter = 0
+        most_ordered = 'hamburguer'
 
         for order in self.orders:
             if order["customer"] == customer:
                 if order["order"] in most_order_dict:
                     most_order_dict[order["order"]] += 1
                 else:
-                    most_order_dict[["order"]] = 1
-
-            if most_order_dict[order["order"]] > order_counter:
-                most_ordered = order["order"]
+                    most_order_dict[order["order"]] = 1
+                if most_order_dict[order["order"]] > order_counter:
+                    most_ordered = order["order"]
 
         # print(most_ordered)
         return most_ordered
@@ -49,44 +48,41 @@ class TrackOrders:
         full_belly_days = set()
 
         for order in self.orders:
-            weekdays.add(order["order"])
+            weekdays.add(order["day"])
 
         for order in self.orders:
             if order["customer"] == customer:
-                full_belly_days.add(order["order"])
+                full_belly_days.add(order["day"])
 
         return weekdays.difference(full_belly_days)
 
     def get_busiest_day(self):
         weekdays_dict = {}
-        counter = 0
-        most_visited = 'terça-feira'
+        counter = 1
+        most_visited = "domingo"
 
         for order in self.orders:
             if order["day"] in weekdays_dict:
                 weekdays_dict[order["day"]] += 1
+                if weekdays_dict[order["day"]] > counter:
+                    most_visited = order["day"]
             else:
-                weekdays_dict[["day"]] = 1
-
-            if weekdays_dict[order["day"]] > counter:
-                most_visited = order["day"]
+                weekdays_dict["day"] = 1
 
         # print(most_visited)
         return most_visited
 
     def get_least_busy_day(self):
         weekdays_dict = {}
-        counter = 0
-        least_visited = 'terça-feira'
+        counter = 1
+        least_visited = "domingo"
 
         for order in self.orders:
             if order["day"] in weekdays_dict:
                 weekdays_dict[order["day"]] += 1
             else:
-                weekdays_dict[["day"]] = 1
+                weekdays_dict[order["day"]] = 1
+                if weekdays_dict[order["day"]] <= counter:
+                    least_visited = order["day"]
 
-            if weekdays_dict[order["day"]] <= counter:
-                least_visited = order["day"]
-
-        # print(least_visited)
         return least_visited

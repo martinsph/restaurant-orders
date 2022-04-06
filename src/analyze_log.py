@@ -4,7 +4,8 @@ import csv
 def most_ordered_per_person(data, person):
     most_order_dict = {}
     order_counter = 0
-    most_ordered = 'pizza'
+    most_ordered = 'hamburguer'
+    result = (most_ordered, most_order_dict)
 
     for order in data:
         if order[0] == person:
@@ -13,11 +14,11 @@ def most_ordered_per_person(data, person):
             else:
                 most_order_dict[order[1]] = 1
 
-        if most_order_dict[order[1]] > order_counter:
-            most_ordered = order[1]
+            if most_order_dict[order[1]] > order_counter:
+                most_ordered = order[1]
 
     # print(most_ordered)
-    return most_ordered
+    return result
 
 
 def never_ordered_per_person(data, person):
@@ -66,16 +67,18 @@ def analyze_log(path_to_file):
 
     try:
         csv_file = csv_reader(path_to_file)
+        print(csv_file)
 
-        most_ordered_result = most_ordered_per_person(csv_file, "maria")
-        ordered_number_result = most_ordered_per_person(csv_file, "arnaldo")
+        maria_result = most_ordered_per_person(csv_file, "maria")
+        general_result = most_ordered_per_person(csv_file, "arnaldo")
+        arnaldo_answer = general_result[1]["hamburguer"]
         never_ordered_result = never_ordered_per_person(csv_file, "joao")
         hungry_days_result = hungry_days_per_person(csv_file, "joao")
 
         csv_writer(
             "./data/mkt_campaign.txt",
-            f"{most_ordered_result}\n"
-            f"{ordered_number_result}\n"
+            f"{maria_result[0]}\n"
+            f"{arnaldo_answer}\n"
             f"{never_ordered_result}\n"
             f"{hungry_days_result}\n",
         )

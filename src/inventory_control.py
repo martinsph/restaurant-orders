@@ -16,7 +16,7 @@ class InventoryControl:
     }
 
     def __init__(self):
-        self.menu = list(self.INGREDIENTS.keys())
+        self.menu = set(self.INGREDIENTS.keys())
         self.inventory = self.MINIMUM_INVENTORY.copy()
         self.used_ingredients = self.MINIMUM_INVENTORY.copy()
         for ingredients in self.used_ingredients:
@@ -24,7 +24,7 @@ class InventoryControl:
 
     def add_new_order(self, customer, order, day):
         for item in self.INGREDIENTS[order]:
-            if self.inventory[item] == 0:
+            if self.inventory[item] <= 0:
                 return False
             else:
                 self.inventory[item] -= 1
@@ -32,3 +32,10 @@ class InventoryControl:
 
     def get_quantities_to_buy(self):
         return self.used_ingredients
+
+    def get_available_dishes(self):
+        for dish, ingredients in self.INGREDIENTS.items():
+            for ingredient in ingredients:
+                if self.inventory[ingredient] == 0:
+                    self.menu.discard(dish)
+        return self.menu
